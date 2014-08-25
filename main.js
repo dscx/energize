@@ -1,2 +1,16 @@
+var colors = d3.scale.category20c();
 
-//var svg = d3.select("#chart").append("svg");
+
+
+
+//load the data
+  d3.json("data/SEDS.json", function(states){
+    //gives each state a color dot
+    var dot = svg.append("g")
+        .attr("class", "dot")
+      .selectAll(".dot")
+        .data(interpolateData(1000))
+        .enter().append("circle")
+          .attr("class", "dot")
+          .style("fill", function(d) {return colors(color(d)); });
+  });
