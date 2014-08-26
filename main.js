@@ -98,6 +98,7 @@ var yearSelector = function(year){
 $("form").on("submit", function (e) {
   e.preventDefault();
   var yearInput = $("#yearChoice").val();
+  if(yearInput < 1960 || yearInput > 2012){ alert("Please pick a date between 1960 and 2012");}
     clear();
     yearSelector(yearInput);
 });
