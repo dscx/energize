@@ -4,3 +4,11 @@
   stroke-width:1.75;
   stroke-opacity:.5;
 }
+
+.colors{
+  fill: #123456;
+
+}
+text {
+  font: 10px sans-serif;
+}
