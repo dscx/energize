@@ -60,38 +60,32 @@ var prevYear = 0;
 var statePicked;
 
 
-// var showData = function(){
+
 var clear = function(){
   d3.selectAll("svg").remove();
 };
 
 var yearSelector = function(year){
   prevYear = yearPicked;
-  console.log(year, "before picked selection");
-  console.log(years);
-  //debugger;
   yearPicked = years.indexOf(JSON.parse(year));
-  console.log(yearPicked, 'after assignment');
 
   var svg = d3.select("body").append("svg").attr({
-  width: 1959,
-  height: 693,
+  width: 1680,
+  height: 888,
   });
 
  data.forEach(function(d){
-  //debugger;
-  console.log(yearPicked, "inside forEach");
   svg.selectAll("div")
   .data(d.data[yearPicked]) //this field determines the year
   .enter()
   .append("rect")
   .attr({
-    width: 50,
+    width: 20,
     height: function(d){
-      console.log('bar height assignment');
-        return (d / 15000);},
-    x: function(d){return d /5000;},
-    y: function(d){ return 693 - (d / 15000);},
+        return (d / 16000);},
+    //x: function(d){return d /5000;},
+    x: function(){return Math.floor((Math.random() * 1280) + 50);},
+    y: function(d){ return 888 - (d / 16000);},
     fill:function(){
         return '#'+Math.floor(Math.random()*16777215).toString(16);
       }
@@ -100,15 +94,11 @@ var yearSelector = function(year){
  });
 };
 
-//};
 
 $("form").on("submit", function (e) {
   e.preventDefault();
-    console.log($("#yearChoice").val(), "was chosen");
   var yearInput = $("#yearChoice").val();
-  console.log("clearing..");
     clear();
-    console.log("injecting year");
     yearSelector(yearInput);
 });
 
@@ -118,31 +108,3 @@ var stateSelector = function(state){
   statePicked = states.indexOf(state);
   return statePicked;
 };
-
-// var populateDropDown = function(selector, text, value){
-//   var optn = document.createElement("OPTION");
-//   optn.text = text;
-//   optn.value = value;
-//   selectbox.options.add(optn);
-// };
-
-// data.forEach(function(d){
-// //console.log(d.state, "inside", d); // properly logs every state object
-//   svg.selectAll("div")
-//   //.data(d.data[yearSelector(2012)])
-//   .data(d.data[yearPicked]) //this field can determine the year?
-//   .enter()
-//   .append("rect")
-//   .attr({
-//     width: 22,
-//     height: function(d){
-//       //console.log(d[yearSelector(2012)])
-//         return (d / 15000);},
-//     x: function(d){return d /5000;},
-//     y: function(d){ return 593 - (d / 15000);},
-//     fill:function(){
-//         return '#'+Math.floor(Math.random()*16777215).toString(16);
-//       }
-//         })
-//   .text(d.state);
-// });
