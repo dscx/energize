@@ -59,6 +59,8 @@ var yearPicked = 0;
 var prevYear = 0;
 var statePicked;
 
+
+// var showData = function(){
 var clear = function(){
   d3.selectAll("svg").remove();
 };
@@ -75,6 +77,8 @@ var yearSelector = function(year){
   });
 
  data.forEach(function(d){
+  console.log('for each')
+  //debugger;
   svg.selectAll("div")
   .data(d.data[yearPicked]) //this field determines the year
   .enter()
@@ -82,6 +86,7 @@ var yearSelector = function(year){
   .attr({
     width: 5,
     height: function(d){
+      console.log('bar height assignment');
         return (d / 15000);},
     x: function(d){return d /5000;},
     y: function(d){ return 593 - (d / 15000);},
@@ -93,12 +98,29 @@ var yearSelector = function(year){
  });
 };
 
+//};
+
+$("form").on("submit", function (e) {
+  e.preventDefault();
+    console.log($("#yearChoice").val());
+  var yearInput = $("#yearChoice").val();
+    clear();
+    yearSelector($("#yearChoice").val());
+});
+
+
 var stateSelector = function(state){
   //format example: "CA"
   statePicked = states.indexOf(state);
   return statePicked;
 };
 
+// var populateDropDown = function(selector, text, value){
+//   var optn = document.createElement("OPTION");
+//   optn.text = text;
+//   optn.value = value;
+//   selectbox.options.add(optn);
+// };
 
 // data.forEach(function(d){
 // //console.log(d.state, "inside", d); // properly logs every state object
