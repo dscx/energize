@@ -67,33 +67,35 @@ var clear = function(){
 
 var yearSelector = function(year){
   prevYear = yearPicked;
-  yearPicked = years.indexOf(year);
+  console.log(year, "before picked selection");
+  console.log(years);
+  //debugger;
+  yearPicked = years.indexOf(JSON.parse(year));
+  console.log(yearPicked, 'after assignment');
 
   var svg = d3.select("body").append("svg").attr({
-  // width: window.innerWidth,
-  // height: window.innerHeight,
   width: 1959,
-  height: 593,
+  height: 693,
   });
 
  data.forEach(function(d){
-  console.log('for each')
   //debugger;
+  console.log(yearPicked, "inside forEach");
   svg.selectAll("div")
   .data(d.data[yearPicked]) //this field determines the year
   .enter()
   .append("rect")
   .attr({
-    width: 5,
+    width: 50,
     height: function(d){
       console.log('bar height assignment');
         return (d / 15000);},
     x: function(d){return d /5000;},
-    y: function(d){ return 593 - (d / 15000);},
+    y: function(d){ return 693 - (d / 15000);},
     fill:function(){
         return '#'+Math.floor(Math.random()*16777215).toString(16);
       }
-        })
+  })
   .text(d.state);
  });
 };
@@ -102,10 +104,12 @@ var yearSelector = function(year){
 
 $("form").on("submit", function (e) {
   e.preventDefault();
-    console.log($("#yearChoice").val());
+    console.log($("#yearChoice").val(), "was chosen");
   var yearInput = $("#yearChoice").val();
+  console.log("clearing..");
     clear();
-    yearSelector($("#yearChoice").val());
+    console.log("injecting year");
+    yearSelector(yearInput);
 });
 
 
