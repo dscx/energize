@@ -1,0 +1,8 @@
+{
+  "name": "energize",
+  "version": "0.0.1",
+  "private": false,
+  "devDependencies": {
+    "topojson": "1"
+  }
+}
