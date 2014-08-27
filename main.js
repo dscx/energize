@@ -85,6 +85,12 @@ var drag = d3.behavior.drag()
                     .attr('cy', d3.event.y);
     });
 
+var move = function(transition){
+  transition
+        .attr("cx", function(d){return Math.floor((Math.random() * width));})
+        .attr("cy", function(d){return Math.floor(((Math.random() * d / 50000)) + height - 20);});
+}
+
 var clear = function(){
   d3.selectAll("circle").remove();
 };
@@ -110,6 +116,14 @@ var yearSelector = function(year, set){
         .style("fill", function(){return '#'+Math.floor(Math.random()*16777215).toString(16); });
     });
 };
+
+
+// setInterval(function(){
+// d3.selectAll('circle')
+//     .transition().ease("bounce")
+//     .call(move);
+
+// }, 3000);
 
 
   svg.call(tip);
