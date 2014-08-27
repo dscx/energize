@@ -1,3 +1,10 @@
+var width = 1280;
+var height = 888;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
 var data = [ 
 {"state":"AL","data":[[1904676],[1932241],[1958357],[1827395],[2018501],[2093521],[2104898],[2066495],[2084863],[1971282],[1978930],[1917972],[2111641],[2061548],[2018481],[1972627],[2005036],[1972438],[1898492],[1807308],[1753456],[1682950],[1665543],[1683264],[1651823],[1582744],[1504837],[1519791],[1544689],[1446066],[1499225],[1604167],[1645058],[1649050],[1638624],[1623676],[1551983],[1515313],[1547838],[1527391],[1478196],[1385063],[1393617],[1343234],[1246729],[1138614],[1088594],[1044971],[979643],[913539],[881582],[831574],[866851]]},
 {"state":"AK","data":[[637312],[640959],[642769],[631498],[651624],[724068],[746806],[797925],[775234],[733584],[733019],[735865],[742179],[725462],[723358],[708870],[718841],[704213],[623209],[623828],[627237],[602660],[584083],[576194],[521404],[499218],[504260],[474439],[482898],[437637],[409072],[279672],[295757],[299782],[324057],[293532],[254674],[232186],[201495],[196970],[214384],[200968],[182043],[156633],[122532],[115172],[102698],[87781],[85067],[80788],[78813],[72174],[61434]]},
@@ -58,8 +65,17 @@ var states = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","
 var yearPicked = 0;
 var prevYear = 0;
 var statePicked;
+var color = d3.scale.category10();
 
-
+//var nodes = d3.range(50).map(function() { return {radius: Math.random() * 12 + 4}; });
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([50, 0])
+  .html(function(d){
+    console.log(data)
+    console.log(this)
+    return "<strong>"+ this.id +"</strong><span style='red'> " + d + "Billion BTU's" + "</span>";
+  });
 
 var clear = function(){
   d3.selectAll("svg").remove();
@@ -69,32 +85,87 @@ var yearSelector = function(year){
   prevYear = yearPicked;
   yearPicked = years.indexOf(JSON.parse(year));
 
-  var svg = d3.select("body").append("svg").attr({
-  width: 1680,
-  height: 888,
-  });
+  var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
 
- data.forEach(function(d){
-  svg.selectAll("div")
-  .data(d.data[yearPicked]) //this field determines the year
-  .enter()
-  .append("rect")
-  .attr({
-    width: 20,
-    height: function(d){
-        return (d / 16000);},
-    //x: function(d){return d /5000;},
-    x: function(){return Math.floor((Math.random() * 1280) + 50);},
-    y: function(d){ return 888 - (d / 16000);},
-    fill:function(){
-        return '#'+Math.floor(Math.random()*16777215).toString(16);
-      }
-  })
-  .text(d.state);
- });
+data.forEach(function(d){
+//console.log(d);
+svg.selectAll("div")
+    .data(d.data[yearPicked])
+  .enter().append("circle")
+    .attr("r", function(d) { return d / 50000; })
+    //.attr("r", function(d) { return 20; })
+
+    .attr("cx", function(d){return Math.floor((Math.random() * 980));})
+    .attr("cy", function(d){return Math.floor((Math.random() * 588));})
+    .attr("class", "node")
+    .attr("id", d.state)
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide)
+    .style("fill", function(){return '#'+Math.floor(Math.random()*16777215).toString(16); });
+});
+
 };
 
+  svg.call(tip);
 
+
+var nodes = $(".node");
+console.log(nodes)
+//var root = nodes[0];
+
+//root.radius = 0;
+//root.fixed = true;
+
+var force = d3.layout.force()
+    .gravity(0.17)
+    .charge(function(d, i) { return i ? 0 : -2500; })
+    .nodes(nodes)
+    .size([width, height]);
+
+force.start();
+
+// force.on("tick", function(e) {
+//   var q = d3.geom.quadtree(nodes),
+//       i = 0,
+//       n = 10;
+
+//   while (++i < n) q.visit(collide(nodes[i]));
+
+//   // svg.selectAll("circle")
+//   //     .attr("cx", function(d) { return d.x; })
+//   //     .attr("cy", function(d) { return d.y; });
+// });
+
+
+//  var collide = function(node) {
+//   console.log(node, "HERE IT IS");
+//   var r = node.radius + 16;
+//   var nx1 = node.x - r;
+//   var nx2 = node.x + r;
+//   var ny1 = node.y - r;
+//   var ny2 = node.y + r;
+//   return function(quad, x1, y1, x2, y2) {
+//     if (quad.point && (quad.point !== node)) {
+//       var x = node.x - quad.point.x;
+//       var y = node.y - quad.point.y;
+//       var l = Math.sqrt(x * x + y * y);
+//       var r = node.radius + quad.point.radius;
+//       if (l < r) {
+//         l = (l - r) / l * .5;
+//         node.x -= x *= l;
+//         node.y -= y *= l;
+//         quad.point.x += x;
+//         quad.point.y += y;
+//       }
+//     }
+//     return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+//   };
+// }
+
+
+//////ties form submit text to rendering function
 $("form").on("submit", function (e) {
   e.preventDefault();
   var yearInput = $("#yearChoice").val();
@@ -104,8 +175,56 @@ $("form").on("submit", function (e) {
 });
 
 
-var stateSelector = function(state){
-  //format example: "CA"
-  statePicked = states.indexOf(state);
-  return statePicked;
-};
+
+
+
+
+
+// var clear = function(){
+//   d3.selectAll("svg").remove();
+// };
+
+// var yearSelector = function(year){
+//   prevYear = yearPicked;
+//   yearPicked = years.indexOf(JSON.parse(year));
+
+//   var svg = d3.select("body").append("svg").attr({
+//   width: 1680,
+//   height: 888,
+//   });
+
+//  data.forEach(function(d){
+//   svg.selectAll("div")
+//   .data(d.data[yearPicked]) //this field determines the year
+//   .enter()
+//   .append("rect")
+//   .attr({
+//     width: 20,
+//     height: function(d){
+//         return (d / 16000);},
+//     //x: function(d){return d /5000;},
+//     x: function(){return Math.floor((Math.random() * 1280) + 50);},
+//     y: function(d){ return 888 - (d / 16000);},
+//     fill:function(){
+//         return '#'+Math.floor(Math.random()*16777215).toString(16);
+//       }
+//   })
+//   .text(d.state);
+//  });
+// };
+
+
+// $("form").on("submit", function (e) {
+//   e.preventDefault();
+//   var yearInput = $("#yearChoice").val();
+//   if(yearInput < 1960 || yearInput > 2012){ alert("Please pick a date between 1960 and 2012");}
+//     clear();
+//     yearSelector(yearInput);
+// });
+
+
+// var stateSelector = function(state){
+//   //format example: "CA"
+//   statePicked = states.indexOf(state);
+//   return statePicked;
+// };
