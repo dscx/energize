@@ -56,8 +56,6 @@ var data = [
 //var usa = {"state":"USA", "data":[[94970874],[97383851],[97981238],[94573029],[99264648],[101295264],[99592377],[100277287],[100168974],[97942849],[97650017],[96142288],[98805567],[96631780],[95029982],[94750356],[94091390],[91091786],[89117590],[87451383],[85788490],[84435527],[84506671],[84777019],[82760410],[79005567],[76639363],[76464077],[76571095],[72934367],[73058784],[76141756],[78092506],[80882446],[80021769],[77988301],[76002450],[71986573],[73947572],[75755267],[72705040],[69186565],[67741611],[65596682],[62414722],[58926572],[57026015],[54027593],[51826046],[49661147],[47824415],[45731168],[45079292]]};
 var width = window.innerWidth;
 var height = window.innerHeight - 15;
-// var width = 1180;
-// var height = 888;
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -69,7 +67,6 @@ var compass = ["n", "s", "e", "w"];
 var yearPicked = 0;
 var statePicked;
 var color = d3.scale.category10();
-//var nodes = d3.range(200).map(function() { return {radius: Math.random() * 12 + 4}; });
 var nodes;
 
 var tip = d3.tip()
@@ -81,7 +78,6 @@ var tip = d3.tip()
   .html(function(d){
     return "<strong>"+ this.id +"</strong><span style='red'> " + d + " Billion BTU's" + "</span>";
   });
-
 
 var drag = d3.behavior.drag()
     .on('drag', function() { 
@@ -99,7 +95,7 @@ var yearSelector = function(year, set){
   yearPicked = years.indexOf(JSON.parse(year));
 
   set.forEach(function(d){
-    svg.selectAll("div")
+    var node = svg.selectAll("div")
       .data(d.data[yearPicked])
       .enter()
       .append('svg:circle')
@@ -111,13 +107,14 @@ var yearSelector = function(year, set){
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
         .call(drag)
-        .style("fill", function(){return '#'+Math.floor(Math.random()*16777215).toString(16); })
+        .style("fill", function(){return '#'+Math.floor(Math.random()*16777215).toString(16); });
     });
 };
 
 
   svg.call(tip);
 
+//year selection handling
 $("form").on("submit", function(e) {
   e.preventDefault();
   var yearInput = $("#yearChoice").val();
@@ -127,7 +124,6 @@ $("form").on("submit", function(e) {
     //force.start();
 });
 
-
-//clear();
+//starts the page with data
 yearSelector(2012);
 
