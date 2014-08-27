@@ -1,9 +1,3 @@
-var width = 1180;
-var height = 888;
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
 
 var data = [ 
 {"state":"AL","data":[[1904676],[1932241],[1958357],[1827395],[2018501],[2093521],[2104898],[2066495],[2084863],[1971282],[1978930],[1917972],[2111641],[2061548],[2018481],[1972627],[2005036],[1972438],[1898492],[1807308],[1753456],[1682950],[1665543],[1683264],[1651823],[1582744],[1504837],[1519791],[1544689],[1446066],[1499225],[1604167],[1645058],[1649050],[1638624],[1623676],[1551983],[1515313],[1547838],[1527391],[1478196],[1385063],[1393617],[1343234],[1246729],[1138614],[1088594],[1044971],[979643],[913539],[881582],[831574],[866851]]},
@@ -59,18 +53,25 @@ var data = [
 {"state":"WY","data":[[546938],[553136],[537903],[522141],[539840],[524729],[480842],[456183],[450802],[461501],[438884],[438544],[428153],[425486],[421169],[415039],[415442],[403461],[408420],[407434],[421659],[388374],[399431],[382201],[370800],[363928],[336066],[357376],[351430],[329336],[363542],[352900],[362377],[378435],[354867],[325349],[300367],[277424],[278940],[283570],[286934],[268505],[255524],[250586],[225624],[205177],[180482],[172875],[163541],[163282],[173552],[154611],[141497]]},
  ];
 
-var allStates = {"state":"USA", "data":[[94970874],[97383851],[97981238],[94573029],[99264648],[101295264],[99592377],[100277287],[100168974],[97942849],[97650017],[96142288],[98805567],[96631780],[95029982],[94750356],[94091390],[91091786],[89117590],[87451383],[85788490],[84435527],[84506671],[84777019],[82760410],[79005567],[76639363],[76464077],[76571095],[72934367],[73058784],[76141756],[78092506],[80882446],[80021769],[77988301],[76002450],[71986573],[73947572],[75755267],[72705040],[69186565],[67741611],[65596682],[62414722],[58926572],[57026015],[54027593],[51826046],[49661147],[47824415],[45731168],[45079292]]};
+//var usa = {"state":"USA", "data":[[94970874],[97383851],[97981238],[94573029],[99264648],[101295264],[99592377],[100277287],[100168974],[97942849],[97650017],[96142288],[98805567],[96631780],[95029982],[94750356],[94091390],[91091786],[89117590],[87451383],[85788490],[84435527],[84506671],[84777019],[82760410],[79005567],[76639363],[76464077],[76571095],[72934367],[73058784],[76141756],[78092506],[80882446],[80021769],[77988301],[76002450],[71986573],[73947572],[75755267],[72705040],[69186565],[67741611],[65596682],[62414722],[58926572],[57026015],[54027593],[51826046],[49661147],[47824415],[45731168],[45079292]]};
+var width = window.innerWidth;
+var height = window.innerHeight - 15;
+// var width = 1180;
+// var height = 888;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
 
 var years = [2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990, 1989, 1988, 1987, 1986, 1985, 1984, 1983, 1982, 1981, 1980, 1979, 1978, 1977, 1976, 1975, 1974, 1973, 1972, 1971, 1970, 1969, 1968, 1967, 1966, 1965, 1964, 1963, 1962, 1961, 1960];
 var states = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 var compass = ["n", "s", "e", "w"];
 var yearPicked = 0;
-var prevYear = 0;
 var statePicked;
 var color = d3.scale.category10();
-var nodes = [];
+//var nodes = d3.range(200).map(function() { return {radius: Math.random() * 12 + 4}; });
+var nodes;
 
-//var nodes = d3.range(50).map(function() { return {radius: Math.random() * 12 + 4}; });
 var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([0, 0])
@@ -81,53 +82,52 @@ var tip = d3.tip()
     return "<strong>"+ this.id +"</strong><span style='red'> " + d + " Billion BTU's" + "</span>";
   });
 
+
+var drag = d3.behavior.drag()
+    .on('drag', function() { 
+      d3.select(this).attr('cx', d3.event.x)
+                    .attr('cy', d3.event.y);
+    });
+
 var clear = function(){
   d3.selectAll("circle").remove();
 };
 
+
 var yearSelector = function(year, set){
   set = set || data;
-  prevYear = yearPicked;
   yearPicked = years.indexOf(JSON.parse(year));
 
-    set.forEach(function(d){
-    //console.log(d);
+  set.forEach(function(d){
     svg.selectAll("div")
-        .data(d.data[yearPicked])
-      .enter().append("circle")
+      .data(d.data[yearPicked])
+      .enter()
+      .append('svg:circle')
         .attr("r", function(d) { return d / 50000; })
-        .attr("cx", function(d){return Math.floor((Math.random() * 980));})
-        .attr("cy", function(d){return Math.floor((Math.random() * 588));})
+        .attr("cx", function(d){return Math.floor((Math.random() * width));})
+        .attr("cy", function(d){return Math.floor((Math.random() * height));})
         .attr("class", "node")
         .attr("id", d.state)
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
-        .style("fill", function(){return '#'+Math.floor(Math.random()*16777215).toString(16); });
+        .call(drag)
+        .style("fill", function(){return '#'+Math.floor(Math.random()*16777215).toString(16); })
     });
-
 };
+
 
   svg.call(tip);
 
-
-$("form").on("submit", function (e) {
+$("form").on("submit", function(e) {
   e.preventDefault();
   var yearInput = $("#yearChoice").val();
   if(yearInput < 1960 || yearInput > 2012){ alert("Please pick a date between 1960 and 2012");}
     clear();
     yearSelector(yearInput);
-    force.start();
+    //force.start();
 });
 
 
 //clear();
 yearSelector(2012);
 
-var force = d3.layout.force()
-    .gravity(0.17)
-    .charge(function(d, i) { return i ? 0 : -2500; })
-    .nodes(nodes)
-    .size([width, height]);
-
-var node = d3.selectAll("circle");
-//console.log(node, "node")
