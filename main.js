@@ -1,4 +1,4 @@
-
+//data is ordered by year, 2012-1960
 var data = [ 
 {"state":"AL","data":[[1904676],[1932241],[1958357],[1827395],[2018501],[2093521],[2104898],[2066495],[2084863],[1971282],[1978930],[1917972],[2111641],[2061548],[2018481],[1972627],[2005036],[1972438],[1898492],[1807308],[1753456],[1682950],[1665543],[1683264],[1651823],[1582744],[1504837],[1519791],[1544689],[1446066],[1499225],[1604167],[1645058],[1649050],[1638624],[1623676],[1551983],[1515313],[1547838],[1527391],[1478196],[1385063],[1393617],[1343234],[1246729],[1138614],[1088594],[1044971],[979643],[913539],[881582],[831574],[866851]]},
 {"state":"AK","data":[[637312],[640959],[642769],[631498],[651624],[724068],[746806],[797925],[775234],[733584],[733019],[735865],[742179],[725462],[723358],[708870],[718841],[704213],[623209],[623828],[627237],[602660],[584083],[576194],[521404],[499218],[504260],[474439],[482898],[437637],[409072],[279672],[295757],[299782],[324057],[293532],[254674],[232186],[201495],[196970],[214384],[200968],[182043],[156633],[122532],[115172],[102698],[87781],[85067],[80788],[78813],[72174],[61434]]},
@@ -69,6 +69,7 @@ var statePicked;
 var color = d3.scale.category10();
 var nodes;
 
+//tooltip
 var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([0, 0])
@@ -85,11 +86,12 @@ var drag = d3.behavior.drag()
                     .attr('cy', d3.event.y);
     });
 
+//sets new random location at bottom of svg
 var move = function(transition){
   transition
         .attr("cx", function(d){return Math.floor((Math.random() * width));})
         .attr("cy", function(d){return Math.floor(((Math.random() * d / 50000)) + height - 20);});
-}
+};
 
 var clear = function(){
   d3.selectAll("circle").remove();
@@ -117,7 +119,7 @@ var yearSelector = function(year, set){
     });
 };
 
-
+//test feature for moving objects
 // setInterval(function(){
 // d3.selectAll('circle')
 //     .transition().ease("bounce")
@@ -141,3 +143,9 @@ $("form").on("submit", function(e) {
 //starts the page with data
 yearSelector(2012);
 
+
+/*TODO
+  implement state selector
+  implement force
+
+*/
