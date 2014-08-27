@@ -4,7 +4,7 @@
  A data visualization of energy consumption in the US.
 
 ## How to Get Started ##
-  If running locally, start a python server and navigate to the page/port it opens.
+  Open Index.html
   Enter a date in the input field and see the results.
 
 ## Customer Quote ##
