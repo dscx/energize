@@ -20,8 +20,11 @@ var states = topojson.feature(us, us.objects.states);
 svg.selectAll('.states')
     .data(topojson.feature(us, us.objects.states).features)
   .enter().append("path")
-    .attr("d", path)
-    .attr("class", function(d) { return "state " + dataId[d.id].abbr; });
+    .attr("class", function(d) {
+      if(dataId[d.id])
+        return "state " + dataId[d.id].abbr;
+    })
+    .attr("d", path);
 
 
 //tooltip
@@ -76,6 +79,9 @@ var yearSelector = function(year, set){
 };
 */
 
+var yearSelector = function(year) {
+};
+
 //test feature for moving objects
 // setInterval(function(){
 // d3.selectAll('circle')
@@ -88,17 +94,15 @@ var yearSelector = function(year, set){
   svg.call(tip);
 
 //year selection handling
-$("form").on("submit", function(e) {
-  e.preventDefault();
+$("#yearChoice").change( function() {
   var yearInput = $("#yearChoice").val();
-  if(yearInput < 1960 || yearInput > 2012){ alert("Please pick a date between 1960 and 2012");}
-    clear();
+  if(yearInput >= 1960 && yearInput <= 2012){
     yearSelector(yearInput);
-    //force.start();
+  }
 });
 
 //starts the page with data
-// yearSelector(2012);
+yearSelector(2012);
 
 
 /*TODO
