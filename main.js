@@ -13,16 +13,34 @@ var statePicked;
 var color = d3.scale.category10();
 var nodes;
 
-
+var year = 0;
 var path = d3.geo.path();
 var states = topojson.feature(us, us.objects.states);
 
 svg.selectAll('.states')
     .data(topojson.feature(us, us.objects.states).features)
-  .enter().append("path")
-    .attr("class", function(d) {
+    .enter().append("path")
+    .attr("id", function(d, i) {
       if(dataId[d.id])
-        return "state " + dataId[d.id].abbr;
+        return dataId[d.id].abbr;
+    })
+    .style('fill', function(d, i) {
+      if(dataId[d.id]) {
+        var MAX = 12281904;
+        var stateIndex = dataId[d.id].index;
+        var stateData = data[stateIndex];
+        var stateYearData = stateData.data[year];
+        console.log(dataId[d.id].abbr + ' ' + stateYearData);
+        return '#' + Math.floor((Math.log(stateYearData)/Math.log(MAX)) * 16777215).toString(16);
+      }
+    })
+    .attr('e', function(d) {
+      if(dataId[d.id]) {
+        var stateIndex = dataId[d.id].index;
+        var stateData = data[stateIndex];
+        var stateYearData = stateData.data[year];
+        return stateYearData;
+      }
     })
     .attr("d", path);
 
@@ -80,6 +98,10 @@ var yearSelector = function(year, set){
 */
 
 var yearSelector = function(year) {
+  svg.selectAll('path')[0]
+     .forEach(function(d) {
+       var stateAbbr = d.id;
+     });
 };
 
 //test feature for moving objects
