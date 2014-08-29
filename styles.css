@@ -1,23 +1,61 @@
 .state {
-  fill:#d3d3d3;
-  stroke:#fff;
-  stroke-width:1.75;
+  stroke:#000;
   stroke-opacity:.5;
 }
 
-.colors{
-  fill: #123456;
-
+.bar {
+  fill: steelblue;
 }
-text {
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
   font: 10px sans-serif;
 }
 
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.label {
+  fill: #777;
+}
+
+.year.label {
+  font: 200 96px "Helvetica Neue";
+  fill: #ddd;
+}
+
+.year.label.active {
+  fill: #aaa;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+  cursor: ew-resize;
+}
+
+body {
+  width: 960px;
+  font-family: Arial;
+  font-size: 18pt;
+}
+
+h1, h2 {
+  text-align: center;
+  line-height: 50%;
+}
+
+form {
+  text-align: center;
 }

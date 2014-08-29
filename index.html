@@ -7,14 +7,26 @@
   </head>
   <body>
 
-    <form>
-    <input type="text" id="yearChoice" placeholder="Enter a Date Between 1960-2012" size="35" required>
-    <input type="submit" value="submit">
-  </form>
+    <h1>Energy Consumption in the United States</h1>
+    <h2>(1960-2012)</h2>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-  <script src='main.js'></script>
-</body>
+    <div id='redMap'></div>
+
+    <form>
+      <input type="range" min="1960" max="2012" id="nYear" value="2012" width="500px">
+      <span>2012</span>
+      <input id='sorter' type="checkbox"> Sort By State
+    </form>
+
+    <div id='blueChart'></div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="data.js"></script>
+    <script src="colors.js"></script>
+    <script src="barChart.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
