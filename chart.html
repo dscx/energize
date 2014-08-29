@@ -191,14 +191,6 @@ var chart = d3.select('body')
   d3.select('#nYear').on('input', function() {
     update(+this.value);
   });
-  
-  function updateYear(nYear) {
-    d3.select('#nYear-value').text(nYear);
-    d3.select('#nYear').property('value', nYear);
-    console.log(nYear);
-
-    dataYear = getDataByStateYear(nYear);
-  }
 
 function update(data) {
   console.log(data);
