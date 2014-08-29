@@ -76,3 +76,41 @@ $("#yearChoice").change( function() {
     yearSelector(year);
   }
 });
+
+$("#yearChoice").on("focus", function() {
+  clearInterval(cancelSetInterval);
+});
+
+var direction = 'down';
+
+var yearInc = function() {
+  $("#yearChoice").val(parseInt($("#yearChoice").val()) + 1);
+  $("#yearChoice").change();
+};
+
+var yearDec = function() {
+  $("#yearChoice").val(parseInt($("#yearChoice").val()) - 1);
+  $("#yearChoice").change();
+};
+
+var cancelSetInterval;
+
+setTimeout(function() {
+  cancelSetInterval = setInterval(function() {
+    if(direction === 'down') {
+      if(year === 2012 - 1960) {
+        direction = 'up';
+        yearInc();
+      } else {
+        yearDec();
+      }
+    } else {
+      if(year === 2012 - 2012) {
+        direction = 'down';
+        yearDec();
+      } else {
+        yearInc();
+      }
+    }
+  }, 500);
+}, 500);
