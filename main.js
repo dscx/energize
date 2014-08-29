@@ -1,7 +1,7 @@
 var width = 960;
 var height = 600;
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#redMap").append("svg")
     .attr("width", width)
     .attr("height", height);
 
