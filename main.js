@@ -5,7 +5,6 @@ var transitionInterval = 350;
 var easeType = 'bounce';
 var direction = 'down';
 var cancelSetInterval;
-var year = 0; // must equal input range and span for everything to sync properly
 
 var svg = d3.select('#redMap').append('svg')
     .attr('width', width)
@@ -48,7 +47,16 @@ svg.selectAll('.state')
         return stateYearData;
       }
     })
-    .attr('d', path);
+    .attr('d', path)
+    .append('title')
+    .text(function(d) {
+      if(dataId[d.id]) {
+        var stateIndex = dataId[d.id].index;
+        var stateData = data[stateIndex];
+        var stateYearData = stateData.data[year];
+        return 2012-year + ' ' + dataId[d.id].abbr + ' \n'+ stateYearData + ' BTUs';
+      }
+    });
 
 // updates colors of states as for different year
 var yearSelector = function(year) {
@@ -73,6 +81,15 @@ var yearSelector = function(year) {
           var stateData = data[stateIndex];
           var stateYearData = stateData.data[year];
           return stateYearData;
+        }
+      })
+      .select('title')
+      .text(function(d) {
+        if(dataId[d.id]) {
+          var stateIndex = dataId[d.id].index;
+          var stateData = data[stateIndex];
+          var stateYearData = stateData.data[year];
+          return 2012-year + ' ' + dataId[d.id].abbr + ' \n'+ stateYearData + ' BTUs';
         }
       });
 };

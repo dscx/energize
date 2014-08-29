@@ -15,6 +15,7 @@ updateYear(
 );
 
 var dataYear;
+var year = 0; // must equal input range and span for everything to sync properly
 
 var margin = { top: 40, right: 40, bottom: 40, left: 100 };
 var width = 1000- margin.left - margin.right;
@@ -69,7 +70,7 @@ var chart = d3.select('#blueChart')
       .attr('y', function(d, i) { return yScale(d.btu); })
       .attr('height', function(d) { return tallness - yScale(d.btu); })
     .append('title')
-      .text(function(d, i) { return d.state + ' ' + d.btu + ' BTUs'; });
+      .text(function(d, i) { return 2012-year + ' ' + d.state + '\n' + d.btu + ' BTUs'; });
 
   // chart.append('title')
   //   .text('United States BTU consumption:');
@@ -90,7 +91,7 @@ function update(data) {
     .attr('y', function(d, i) { return yScale(d.btu); })
     .attr('height', function(d) { return tallness - yScale(d.btu); })
     .select('title')
-      .text(function(d, i) { return d.state + ' ' + d.btu + ' BTUs'; });
+      .text(function(d, i) { return 2012-year + ' ' + d.state + '\n' + d.btu + ' BTUs'; });
 }
 
 // Sort by State Check box
