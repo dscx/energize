@@ -1,5 +1,5 @@
 // https://vida.io/documents/4vZ9mRGyepoyQxFcK
-var COLOR_COUNTS = 5;
+var COLOR_COUNTS = 6;
 
 function Interpolate(start, end, steps, count) {
   return Math.floor( start + (((end - start) / steps) * count) );
