@@ -1,5 +1,5 @@
-var width = window.innerWidth;
-var height = window.innerHeight - 15;
+var width = 960;
+var height = 600;
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -14,7 +14,11 @@ var color = d3.scale.category10();
 var nodes;
 
 var year = 0;
-var path = d3.geo.path();
+var projection = d3.geo.albersUsa()
+    .scale(1280)
+    .translate([width / 2, height / 2]);
+var path = d3.geo.path()
+    .projection(projection);
 var states = topojson.feature(us, us.objects.states);
 
 svg.selectAll('.states')
@@ -26,14 +30,16 @@ svg.selectAll('.states')
     })
     .style('fill', function(d, i) {
       if(dataId[d.id]) {
-        var MAX = 12281904;
         var stateIndex = dataId[d.id].index;
         var stateData = data[stateIndex];
         var stateYearData = stateData.data[year];
-        console.log(dataId[d.id].abbr + ' ' + stateYearData);
-        return '#' + Math.floor((Math.log(stateYearData)/Math.log(MAX)) * 16777215).toString(16);
+        var j = quantize(Math.log(stateYearData));
+        var color = colors[j].getColors();
+        return "rgb(" + color.r + "," + color.g +
+            "," + color.b + ")";
       }
     })
+    .attr('class', 'state')
     .attr('e', function(d) {
       if(dataId[d.id]) {
         var stateIndex = dataId[d.id].index;
@@ -104,16 +110,7 @@ var yearSelector = function(year) {
      });
 };
 
-//test feature for moving objects
-// setInterval(function(){
-// d3.selectAll('circle')
-//     .transition().ease("bounce")
-//     .call(move);
-
-// }, 3000);
-
-
-  svg.call(tip);
+svg.call(tip);
 
 //year selection handling
 $("#yearChoice").change( function() {
