@@ -1,16 +1,6 @@
 .state {
-  fill:#d3d3d3;
-  stroke:#fff;
-  stroke-width:1.75;
+  stroke:#000;
   stroke-opacity:.5;
-}
-
-.colors{
-  fill: #123456;
-
-}
-text {
-  font: 10px sans-serif;
 }
 
 .d3-tip {
