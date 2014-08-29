@@ -9,7 +9,9 @@ var getDataByStateYear = function(year) {
   }
   return temp;
 };
-updateYear(1960);
+updateYear(
+  parseInt($('span').text())
+);
 var dataYear;
 
 var margin = { top: 40, right: 40, bottom: 40, left: 100 };

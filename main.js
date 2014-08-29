@@ -76,9 +76,10 @@ $('#nYear').change( function() {
   }
   dataYear = +this.value;
   update(dataYear);
+  $('span').text(yearInput);
 });
 
-$("#nYear").on("click", function() {
+$("body").on("click", function() {
   clearInterval(cancelSetInterval);
 });
 
