@@ -9,9 +9,11 @@ var getDataByStateYear = function(year) {
   }
   return temp;
 };
+
 updateYear(
   parseInt($('span').text())
 );
+
 var dataYear;
 
 var margin = { top: 40, right: 40, bottom: 40, left: 100 };
@@ -24,19 +26,16 @@ var xScale = d3.scale.ordinal()
 
 var yScale = d3.scale.linear()
   .range([tallness, 0])
-  .domain([0, 12562851])
-  ;
+  .domain([0, 12562851]);
 
 var xAxis = d3.svg.axis()
   .scale(xScale)
-  .orient('bottom')
-  ;
+  .orient('bottom');
 
 var yAxis = d3.svg.axis()
   .scale(yScale)
   .orient('left')
-  .ticks(5)
-  ;
+  .ticks(5);
 
 var chart = d3.select('#blueChart')
   .append('svg')
@@ -68,17 +67,12 @@ var chart = d3.select('#blueChart')
       .attr("x", function(d, i) { return xScale(d.state); })
       .attr("width", xScale.rangeBand())
       .attr("y", function(d, i) { return yScale(d.btu); })
-      .attr("height", function(d) { return tallness - yScale(d.btu); })
-        ;
+      .attr("height", function(d) { return tallness - yScale(d.btu); });
 
   chart.append('title')
     .text('United States BTU consumption:');
 
 function updateYear(nYear) {
-  // d3.select('#nYear-value').text(nYear);
-  // d3.select('#nYear').property('value', nYear);
-  console.log(nYear);
-
   dataYear = getDataByStateYear(nYear);
 }
 
@@ -87,11 +81,12 @@ function update(data) {
   dataYear = getDataByStateYear(data);
   chart.selectAll('.bar')
     .data(dataYear)
-      .transition(transitionInterval)
-      .attr("x", function(d, i) { return xScale(d.state); })
-      .attr("y", function(d, i) { return yScale(d.btu); })
-      .attr("height", function(d) { return tallness - yScale(d.btu); })
-      ;
+    .transition()
+    .duration(transitionInterval)
+    .ease(easeType)
+    .attr("x", function(d, i) { return xScale(d.state); })
+    .attr("y", function(d, i) { return yScale(d.btu); })
+    .attr("height", function(d) { return tallness - yScale(d.btu); });
 }
 
 // Sort by State Check box

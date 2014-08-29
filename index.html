@@ -6,17 +6,20 @@
     <link rel='stylesheet' type='css' href='styles.css'> 
   </head>
   <body>
-  <div id='redMap'></div>
+
+    <h1>Energy Consumption in the United States</h1>
+    <h2>(1960-2012)</h2>
+
+    <div id='redMap'></div>
 
     <form>
-      <label>
-        <input type="range" min="1960" max="2012" id="nYear" value="2012" width="500px">
-        <span>2012</span>
-        <input id='sorter' type="checkbox"> Sort By State
-      </label>
+      <input type="range" min="1960" max="2012" id="nYear" value="2012" width="500px">
+      <span>2012</span>
+      <input id='sorter' type="checkbox"> Sort By State
     </form>
 
-  <div id='blueChart'></div>
+    <div id='blueChart'></div>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>

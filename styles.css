@@ -26,12 +26,6 @@
   display: none;
 }
 
-label {
-  position: absolute;
-  top: 610px;
-  left: 500px;
-}
-
 .label {
   fill: #777;
 }
@@ -51,3 +45,17 @@ label {
   cursor: ew-resize;
 }
 
+body {
+  width: 1000px;
+  font-family: Arial;
+  font-size: 18pt;
+}
+
+h1, h2 {
+  text-align: center;
+  line-height: 50%;
+}
+
+form {
+  text-align: center;
+}
