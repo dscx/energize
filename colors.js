@@ -1,5 +1,5 @@
 // https://vida.io/documents/4vZ9mRGyepoyQxFcK
-var COLOR_COUNTS = 10;
+var COLOR_COUNTS = 5;
 
 function Interpolate(start, end, steps, count) {
   return Math.floor( start + (((end - start) / steps) * count) );
@@ -34,7 +34,7 @@ function hexToRgb(hex) {
 }
 
 // var COLOR_FIRST = "#c3e2ff", COLOR_LAST = "#08306B";
-var COLOR_FIRST = "#FFFFFF", COLOR_LAST = "#990000";
+var COLOR_FIRST = "#FFCCCC", COLOR_LAST = "#8B0000";
 
 var rgb = hexToRgb(COLOR_FIRST);
 

@@ -68,29 +68,30 @@ var yearSelector = function(year) {
       });
 };
 
-//year selection handling
-$("#yearChoice").change( function() {
-  var yearInput = $("#yearChoice").val();
+$('#nYear').change( function() {
+  var yearInput = $("#nYear").val();
   if(yearInput >= 1960 && yearInput <= 2012){
     year = 2012 - yearInput;
     yearSelector(year);
   }
+  dataYear = +this.value;
+  update(dataYear);
 });
 
-$("#yearChoice").on("focus", function() {
+$("#nYear").on("click", function() {
   clearInterval(cancelSetInterval);
 });
 
 var direction = 'down';
 
 var yearInc = function() {
-  $("#yearChoice").val(parseInt($("#yearChoice").val()) + 1);
-  $("#yearChoice").change();
+  $("#nYear").val(parseInt($("#nYear").val()) + 1);
+  $("#nYear").change();
 };
 
 var yearDec = function() {
-  $("#yearChoice").val(parseInt($("#yearChoice").val()) - 1);
-  $("#yearChoice").change();
+  $("#nYear").val(parseInt($("#nYear").val()) - 1);
+  $("#nYear").change();
 };
 
 var cancelSetInterval;
