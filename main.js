@@ -1,5 +1,7 @@
 var width = 960;
 var height = 600;
+var interval = 350; // in ms
+var transitionInterval = 50;
 
 var svg = d3.select("#redMap").append("svg")
     .attr("width", width)
@@ -47,6 +49,7 @@ svg.selectAll('.states')
 
 var yearSelector = function(year) {
   svg.selectAll('.state')
+      .transition(transitionInterval)
       .style('fill', function(d, i) {
         if(dataId[d.id]) {
           var stateIndex = dataId[d.id].index;
@@ -102,17 +105,15 @@ setTimeout(function() {
     if(direction === 'down') {
       if(year === 2012 - 1960) {
         direction = 'up';
-        yearInc();
       } else {
         yearDec();
       }
     } else {
       if(year === 2012 - 2012) {
         direction = 'down';
-        yearDec();
       } else {
         yearInc();
       }
     }
-  }, 500);
+  }, interval);
 }, 500);

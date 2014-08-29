@@ -86,16 +86,9 @@ function update(data) {
   console.log(data);
   dataYear = getDataByStateYear(data);
   chart.selectAll('.bar')
-    .remove()
-    ;
-
-  chart.selectAll('.bar')
     .data(dataYear)
-    .enter()
-    .append("rect")
-      .attr("class", "bar")
+      .transition(transitionInterval)
       .attr("x", function(d, i) { return xScale(d.state); })
-      .attr("width", xScale.rangeBand())
       .attr("y", function(d, i) { return yScale(d.btu); })
       .attr("height", function(d) { return tallness - yScale(d.btu); })
       ;
