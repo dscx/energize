@@ -39,35 +39,35 @@ var yAxis = d3.svg.axis()
 
 var chart = d3.select('#blueChart')
   .append('svg')
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", tallness + margin.top + margin.bottom)
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', tallness + margin.top + margin.bottom)
   .append('g')
-  .attr('transform', 'translate('+margin.left + "," + margin.top + ")");
+  .attr('transform', 'translate('+margin.left + ',' + margin.top + ')');
   
-  chart.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + tallness + ")")
+  chart.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + tallness + ')')
       .call(xAxis);
 
-  chart.append("g")
-      .attr("class", "y axis")
+  chart.append('g')
+      .attr('class', 'y axis')
       .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("BTUs");
+    .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 6)
+      .attr('dy', '.71em')
+      .style('text-anchor', 'end')
+      .text('BTUs');
 
-  chart.selectAll(".bar")
+  chart.selectAll('.bar')
       .data(dataYear)
     .enter()
-    .append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d, i) { return xScale(d.state); })
-      .attr("width", xScale.rangeBand())
-      .attr("y", function(d, i) { return yScale(d.btu); })
-      .attr("height", function(d) { return tallness - yScale(d.btu); });
+    .append('rect')
+      .attr('class', 'bar')
+      .attr('x', function(d, i) { return xScale(d.state); })
+      .attr('width', xScale.rangeBand())
+      .attr('y', function(d, i) { return yScale(d.btu); })
+      .attr('height', function(d) { return tallness - yScale(d.btu); });
 
   chart.append('title')
     .text('United States BTU consumption:');
@@ -84,9 +84,9 @@ function update(data) {
     .transition()
     .duration(transitionInterval)
     .ease(easeType)
-    .attr("x", function(d, i) { return xScale(d.state); })
-    .attr("y", function(d, i) { return yScale(d.btu); })
-    .attr("height", function(d) { return tallness - yScale(d.btu); });
+    .attr('x', function(d, i) { return xScale(d.state); })
+    .attr('y', function(d, i) { return yScale(d.btu); })
+    .attr('height', function(d) { return tallness - yScale(d.btu); });
 }
 
 // Sort by State Check box
@@ -104,12 +104,12 @@ function change() {
   var transition = chart.transition().duration(250),
       delay = function(d, i) { return i * 50; };
 
-  transition.selectAll(".bar")
+  transition.selectAll('.bar')
       .delay(delay)
-      .attr("x", function(d) { return x0(d.state); });
+      .attr('x', function(d) { return x0(d.state); });
 
-  transition.select(".x.axis")
+  transition.select('.x.axis')
       .call(xAxis)
-    .selectAll("g")
+    .selectAll('g')
       .delay(delay);
 }
