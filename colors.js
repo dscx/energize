@@ -59,3 +59,4 @@ var quantize = d3.scale.quantize()
     // .domain([0, 1.0])
     .domain([Math.log(61434), Math.log(12281904)])
     .range(d3.range(COLOR_COUNTS).map(function(i) { return i; }));
+    

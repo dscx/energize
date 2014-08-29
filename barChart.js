@@ -18,7 +18,7 @@ var dataYear;
 var year = 0; // must equal input range and span for everything to sync properly
 
 var margin = { top: 40, right: 40, bottom: 40, left: 100 };
-var width = 1000- margin.left - margin.right;
+var width = 960 - margin.left - margin.right;
 var tallness = 500 - margin.top - margin.bottom;
 
 var xScale = d3.scale.ordinal()
