@@ -73,8 +73,8 @@ var chart = d3.select('#blueChart')
     .text('United States BTU consumption:');
 
 function updateYear(nYear) {
-  d3.select('#nYear-value').text(nYear);
-  d3.select('#nYear').property('value', nYear);
+  // d3.select('#nYear-value').text(nYear);
+  // d3.select('#nYear').property('value', nYear);
   console.log(nYear);
 
   dataYear = getDataByStateYear(nYear);
@@ -85,6 +85,9 @@ function update(data) {
   dataYear = getDataByStateYear(data);
   chart.selectAll('.bar')
     .remove()
+    ;
+
+  chart.selectAll('.bar')
     .data(dataYear)
     .enter()
     .append("rect")
@@ -108,7 +111,7 @@ function change() {
       .map(function(d) { return d.state; }))
       .copy();
 
-  var transition = chart.transition().duration(500),
+  var transition = chart.transition().duration(250),
       delay = function(d, i) { return i * 50; };
 
   transition.selectAll(".bar")
